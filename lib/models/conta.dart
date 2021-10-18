@@ -4,7 +4,7 @@ class Conta {
   String? titulo;
   double? saldo;
 
-  Conta({this.id, this.titulo, this.saldo});
+  Conta({this.id, required this.titulo, this.saldo});
 
   Map<String, dynamic> toMap() {
     return {

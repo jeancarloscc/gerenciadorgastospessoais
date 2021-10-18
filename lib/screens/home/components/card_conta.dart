@@ -24,7 +24,7 @@ Widget cardConta(BuildContext context, Conta conta) {
               top: 14,
               right: 12,
               child: Text(
-                conta.titulo,
+                conta.titulo.toString(),
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
