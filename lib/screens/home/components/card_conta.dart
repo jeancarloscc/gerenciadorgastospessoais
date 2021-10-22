@@ -45,7 +45,7 @@ Widget cardConta(BuildContext context, Conta conta) {
               left: 16,
               child: Text('R\$ ' + conta.saldo.toString(),
                   style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 24,
                       fontWeight: FontWeight.w900,
                       color: Colors.white)),
             )

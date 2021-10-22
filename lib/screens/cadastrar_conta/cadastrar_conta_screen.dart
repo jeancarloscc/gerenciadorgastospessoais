@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gerenciadorgastospessoais/models/conta.dart';
+import 'package:gerenciadorgastospessoais/screens/home/home_screen.dart';
 import 'package:gerenciadorgastospessoais/services/conta_service.dart';
 
 class CadastrarContaScreen extends StatelessWidget {
@@ -44,7 +45,11 @@ class CadastrarContaScreen extends StatelessWidget {
                         saldo: double.parse(_saldoController.text)
                       );
                       cs.addConta(newConta);
-
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => HomeScreen()
+                        )
+                      );
                     },
                     child: Text("Cadastrar"),
                   ),
