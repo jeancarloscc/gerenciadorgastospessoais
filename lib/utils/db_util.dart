@@ -19,10 +19,10 @@ class DbUtil {
     titulo VARCHAR(50), saldo REAL)
      """);
     db.execute("""CREATE TABLE transacao (id INTEGER PRIMARY KEY AUTOINCREMENT,
-      tipo INTEGER, titulo VARCHAR(50), descricao VARCHAR(50), data DATETIME,
-      valor REAL, conta INTEGER,
-      FOREIGN KEY (conta) REFERENCES conta (id))
-     """);
+    tipo INTEGER, titulo VARCHAR(50), descricao VARCHAR(50), data DATETIME,
+    valor REAL, conta INTEGER,
+    FOREIGN KEY (conta) REFERENCES conta (id))
+    """);
   }
 
   static Future<void> insertData(String table, Map<String, Object?> dados) async {
