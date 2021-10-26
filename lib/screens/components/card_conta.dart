@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gerenciadorgastospessoais/models/conta.dart';
+import 'package:gerenciadorgastospessoais/screens/conta/conta_screen.dart';
 
 
 Widget cardConta(BuildContext context, Conta conta) {
   return InkWell(
-    onTap: () {},
+    onTap: () {
+      Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (_) => ContaScreen(id: conta.id,)
+          )
+      );
+    },
     child: Container(
         margin: EdgeInsets.only(right: 10, left: 10),
         width: 250,

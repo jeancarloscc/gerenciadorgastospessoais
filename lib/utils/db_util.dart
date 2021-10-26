@@ -35,4 +35,20 @@ class DbUtil {
     final db = await DbUtil.database();
     return db.query(table);
   }
+
+  static Future<List> getDataWhere(String table, String whereString,
+      List<dynamic> whereArguments) async {
+    final db = await DbUtil.database();
+    final data = await db.query(
+      table,
+      where: whereString,
+      whereArgs: whereArguments
+    );
+    return data.toList();
+  }
+
+  static Future<void> executeSQL(String sql, List<dynamic> arguments) async {
+    final db = await DbUtil.database();
+    db.rawUpdate(sql, arguments);
+  }
 }

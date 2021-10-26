@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gerenciadorgastospessoais/screens/home/components/card_conta.dart';
-import 'package:gerenciadorgastospessoais/screens/home/components/card_transacao.dart';
+import 'package:gerenciadorgastospessoais/screens/components/card_conta.dart';
+import 'package:gerenciadorgastospessoais/screens/components/card_transacao.dart';
+import 'package:gerenciadorgastospessoais/screens/transacao/transacao_screen.dart';
 import 'package:gerenciadorgastospessoais/services/conta_service.dart';
 import 'package:gerenciadorgastospessoais/services/transacao_service.dart';
 
@@ -70,7 +71,13 @@ class _BodyState extends State<Body> {
                       color: Colors.black),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => TransacaoScreen()
+                        )
+                    );
+                  },
                   child: Text(
                     "Ver todas",
                     style: TextStyle(
@@ -83,7 +90,7 @@ class _BodyState extends State<Body> {
             ),
           ),
           FutureBuilder(
-              future: _getTransacoes(),
+              future: _loadTransacoes,
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   _transacoes = snapshot.data;
@@ -91,7 +98,7 @@ class _BodyState extends State<Body> {
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,
                           shrinkWrap: true,
-                          itemCount: _transacoes.length,
+                          itemCount: _transacoes.length > 6 ? 6 : _transacoes.length,
                           padding: EdgeInsets.all(10),
                           itemBuilder: (context, index) {
                           return cardTransacao(context, index, _transacoes[index]);

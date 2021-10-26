@@ -2,6 +2,7 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:gerenciadorgastospessoais/models/conta.dart';
 import 'package:gerenciadorgastospessoais/models/transacao.dart';
+import 'package:gerenciadorgastospessoais/screens/home/home_screen.dart';
 import 'package:gerenciadorgastospessoais/services/conta_service.dart';
 import 'package:gerenciadorgastospessoais/services/transacao_service.dart';
 
@@ -39,8 +40,9 @@ class _CadastrarTransacaoScreenState extends State<CadastrarTransacaoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cadastro de Transação"),
-        backgroundColor: widget.tipoTransacao == 1 ? Colors.blue : Colors.red,
+        title: Text(widget.tipoTransacao == 1 ? "Cadastro de entrada" :
+        "Cadastro de saída"),
+        backgroundColor: widget.tipoTransacao == 1 ? Colors.green : Colors.red,
       ),
       body: FutureBuilder(
         future: _loadContas,
@@ -110,11 +112,16 @@ class _CadastrarTransacaoScreenState extends State<CadastrarTransacaoScreen> {
                                   conta: _contaSelecionada!.id
                                 );
                                 ts.addTransacao(newTransacao);
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (_) => HomeScreen()
+                                    )
+                                );
                               },
                               child: Text("Cadastrar"),
                               style: ElevatedButton.styleFrom(
                                   primary: widget.tipoTransacao == 1
-                                      ? Colors.blue
+                                      ? Colors.green
                                       : Colors.red),
                             )),
                       )
