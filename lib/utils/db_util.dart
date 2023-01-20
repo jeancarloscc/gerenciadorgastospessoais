@@ -1,3 +1,4 @@
+
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
@@ -13,19 +14,19 @@ class DbUtil {
     );
   }
 
-  static void _createDb(sql.Database db){
+  static void _createDb(sql.Database db) {
     db.execute(""" 
     CREATE TABLE conta (id INTEGER PRIMARY KEY AUTOINCREMENT,
     titulo VARCHAR(50), saldo REAL)
-     """);
-    db.execute("""CREATE TABLE transacao (id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tipo INTEGER, titulo VARCHAR(50), descricao VARCHAR(50), data DATETIME,
-    valor REAL, conta INTEGER,
-    FOREIGN KEY (conta) REFERENCES conta (id))
     """);
+    db.execute("""CREATE TABLE transacao (id INTEGER PRIMARY KEY AUTOINCREMENT,
+      tipo INTEGER, titulo VARCHAR(50), descricao VARCHAR(50), data DATETIME,
+      valor REAL, conta INTEGER,
+      FOREIGN KEY (conta) REFERENCES conta (id))
+     """);
   }
 
-  static Future<void> insertData(String table, Map<String, Object?> dados) async {
+  static Future<void> insertData(String table, Map<String, Object> dados) async {
     final db = await DbUtil.database();
     await db.insert(table, dados,
     conflictAlgorithm: sql.ConflictAlgorithm.replace);
@@ -37,7 +38,7 @@ class DbUtil {
   }
 
   static Future<List> getDataWhere(String table, String whereString,
-      List<dynamic> whereArguments) async {
+    List<dynamic> whereArguments) async {
     final db = await DbUtil.database();
     final data = await db.query(
       table,
@@ -45,6 +46,7 @@ class DbUtil {
       whereArgs: whereArguments
     );
     return data.toList();
+
   }
 
   static Future<void> executeSQL(String sql, List<dynamic> arguments) async {

@@ -1,6 +1,6 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:gerenciadorgastospessoais/models/transacao.dart';
+import 'package:gerenciador_gastos_pessoais/models/transacao.dart';
 
 Widget cardTransacao(BuildContext context, int index, Transacao transacao) {
   return Container(
@@ -29,18 +29,16 @@ Widget cardTransacao(BuildContext context, int index, Transacao transacao) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  transacao.titulo.toString(),
+                  transacao.titulo,
                   style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 16, fontWeight: FontWeight.w700,
                     color: transacao.tipo == 1 ? Colors.green : Colors.red
                   ),
                 ),
                 Text(
-                  transacao.descricao.toString(),
+                  transacao.descricao,
                   style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 14, fontWeight: FontWeight.w700,
                       color: Colors.grey
                   ),
                 ),
@@ -55,18 +53,17 @@ Widget cardTransacao(BuildContext context, int index, Transacao transacao) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "R\$ "+ transacao.valor.toString(),
+                  "R\$ " + transacao.valor.toString(),
                   style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 16, fontWeight: FontWeight.w700,
                       color: Colors.grey
                   ),
                 ),
                 Text(
-                  formatDate(DateTime.parse(transacao.data.toString()), [dd, "/", mm, "/", yyyy]).toString(),
+                 formatDate(DateTime.parse(transacao.data),
+                            [dd, '/', mm, '/', yyyy]).toString(),
                   style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 16, fontWeight: FontWeight.w700,
                       color: Colors.grey
                   ),
                 ),

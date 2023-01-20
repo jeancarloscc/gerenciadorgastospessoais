@@ -1,20 +1,17 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:gerenciadorgastospessoais/models/conta.dart';
-import 'package:gerenciadorgastospessoais/models/transacao.dart';
-import 'package:gerenciadorgastospessoais/screens/home/home_screen.dart';
-import 'package:gerenciadorgastospessoais/services/conta_service.dart';
-import 'package:gerenciadorgastospessoais/services/transacao_service.dart';
+import 'package:gerenciador_gastos_pessoais/models/conta.dart';
+import 'package:gerenciador_gastos_pessoais/models/transacao.dart';
+import 'package:gerenciador_gastos_pessoais/screens/home/home_screen.dart';
+import 'package:gerenciador_gastos_pessoais/services/conta_service.dart';
+import 'package:gerenciador_gastos_pessoais/services/transacao_service.dart';
 
 class CadastrarTransacaoScreen extends StatefulWidget {
-  const CadastrarTransacaoScreen({Key? key, required this.tipoTransacao})
-      : super(key: key);
-
   final int tipoTransacao;
 
+  CadastrarTransacaoScreen({this.tipoTransacao});
   @override
-  _CadastrarTransacaoScreenState createState() =>
-      _CadastrarTransacaoScreenState();
+  _CadastrarTransacaoScreenState createState() => _CadastrarTransacaoScreenState();
 }
 
 class _CadastrarTransacaoScreenState extends State<CadastrarTransacaoScreen> {
@@ -22,10 +19,10 @@ class _CadastrarTransacaoScreenState extends State<CadastrarTransacaoScreen> {
   final _descricaoController = TextEditingController();
   final _valorController = TextEditingController();
   final _dataController = TextEditingController();
-  Conta? _contaSelecionada;
+  Conta _contaSelecionada;
   ContaService cs = ContaService();
-  Future<List>? _loadContas;
-  List<Conta>? _contas;
+  Future<List> _loadContas;
+  List<Conta> _contas;
   DateTime selectedDate = DateTime.now();
   TransacaoService ts = TransacaoService();
 
@@ -35,7 +32,6 @@ class _CadastrarTransacaoScreenState extends State<CadastrarTransacaoScreen> {
     _loadContas = _getContas();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +42,7 @@ class _CadastrarTransacaoScreenState extends State<CadastrarTransacaoScreen> {
       ),
       body: FutureBuilder(
         future: _loadContas,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot){
           if (snapshot.hasData) {
             _contas = snapshot.data;
             return SingleChildScrollView(
@@ -77,53 +73,53 @@ class _CadastrarTransacaoScreenState extends State<CadastrarTransacaoScreen> {
                           child: TextFormField(
                             controller: _dataController,
                             decoration: InputDecoration(
-                                labelText:
-                                    formatDate(selectedDate, [dd, "/", mm, "/", yyyy])),
+                              labelText: formatDate(selectedDate,
+                                  [dd, '/', mm, '/', yyyy]),
+                            ),
                           ),
                         ),
                       ),
                       DropdownButtonFormField(
                         value: _contaSelecionada,
-                        onChanged: (Conta? conta) {
+                        onChanged: (Conta conta) {
                           setState(() {
                             _contaSelecionada = conta;
                           });
                         },
-                        items: _contas!.map((conta) {
+                        items: _contas.map((conta) {
                           return DropdownMenuItem<Conta>(
-                            value: conta,
-                            child: Text(conta.titulo.toString()),
+                            value: conta, child: Text(conta.titulo),
                           );
                         }).toList(),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 20, bottom: 20),
                         child: Container(
-                            height: 40,
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Transacao newTransacao = Transacao(
-                                  titulo: _tituloController.text,
-                                  descricao: _descricaoController.text,
-                                  tipo: widget.tipoTransacao,
-                                  valor: double.parse(_valorController.text),
-                                  data: selectedDate.toString(),
-                                  conta: _contaSelecionada!.id
-                                );
-                                ts.addTransacao(newTransacao);
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                        builder: (_) => HomeScreen()
-                                    )
-                                );
-                              },
-                              child: Text("Cadastrar"),
-                              style: ElevatedButton.styleFrom(
-                                  primary: widget.tipoTransacao == 1
-                                      ? Colors.green
-                                      : Colors.red),
-                            )),
+                          height: 40,
+                          width: double.infinity,
+                          child: RaisedButton(
+                            onPressed: () {
+                              Transacao newTransacao = Transacao(
+                                titulo: _tituloController.text,
+                                descricao: _descricaoController.text,
+                                tipo: widget.tipoTransacao,
+                                valor: double.parse(_valorController.text),
+                                data: selectedDate.toString(),
+                                conta: _contaSelecionada.id
+                              );
+                              ts.addTransacao(newTransacao);
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => HomeScreen()
+                                  )
+                              );
+                            },
+                            color: widget.tipoTransacao == 1 ?
+                            Colors.green : Colors.red,
+                            child: Text("Cadastrar",
+                            style: TextStyle(color: Colors.white, fontSize: 16),),
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -141,10 +137,10 @@ class _CadastrarTransacaoScreenState extends State<CadastrarTransacaoScreen> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2021, 01),
+        firstDate: DateTime(2018, 01),
         lastDate: DateTime(2030, 01)
     );
     if (picked != null && picked != selectedDate) {
@@ -155,6 +151,6 @@ class _CadastrarTransacaoScreenState extends State<CadastrarTransacaoScreen> {
   }
 
   Future<List> _getContas() async {
-    return await cs.getAllConta();
+    return await cs.getAllContas();
   }
 }

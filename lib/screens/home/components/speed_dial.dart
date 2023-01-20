@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:gerenciadorgastospessoais/screens/cadastrar_conta/cadastrar_conta_screen.dart';
-import 'package:gerenciadorgastospessoais/screens/cadastrar_transacao/cadastrar_transacao_screen.dart';
+import 'package:gerenciador_gastos_pessoais/screens/cadastrar_conta/cadastrar_conta_screen.dart';
+import 'package:gerenciador_gastos_pessoais/screens/cadastrar_transacao/cadastrar_transacao_screen.dart';
 
-SpeedDial buildSpeedDial(BuildContext context) {
+SpeedDial buildSpeedDial(BuildContext context){
   return SpeedDial(
     animatedIcon: AnimatedIcons.menu_close,
     animatedIconTheme: IconThemeData(size: 22),
@@ -49,7 +49,7 @@ SpeedDial buildSpeedDial(BuildContext context) {
           label: "Conta",
           labelStyle: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
           labelBackgroundColor: Colors.blue
-      )
+      ),
     ],
   );
 }

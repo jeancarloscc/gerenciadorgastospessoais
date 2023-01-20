@@ -1,8 +1,6 @@
-
-
-import 'package:gerenciadorgastospessoais/models/transacao.dart';
-import 'package:gerenciadorgastospessoais/services/conta_service.dart';
-import 'package:gerenciadorgastospessoais/utils/db_util.dart';
+import 'package:gerenciador_gastos_pessoais/models/transacao.dart';
+import 'package:gerenciador_gastos_pessoais/services/conta_service.dart';
+import 'package:gerenciador_gastos_pessoais/utils/db_util.dart';
 
 class TransacaoService {
 
@@ -16,14 +14,17 @@ class TransacaoService {
 
   Future<List> getAllTransacoes() async {
     final dataList = await DbUtil.getData('transacao');
-    _transacaoList = dataList .map((transacoes) => Transacao.fromMap(transacoes)).toList();
+    _transacaoList = dataList.map((transacoes) => Transacao.fromMap(transacoes)).toList();
     return _transacaoList;
   }
 
   Future<List> getTransacoesConta(int id) async {
     String whereString = "conta = ?";
     List<dynamic> whereArguments = [id];
-    final dataList = await DbUtil.getDataWhere("transacao", whereString, whereArguments);
+    final dataList = await DbUtil.getDataWhere('transacao',
+        whereString, whereArguments);
     return dataList.map((transacao) => Transacao.fromMap(transacao)).toList();
+
   }
+
 }

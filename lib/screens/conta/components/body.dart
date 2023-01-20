@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:gerenciadorgastospessoais/models/conta.dart';
-import 'package:gerenciadorgastospessoais/models/transacao.dart';
-import 'package:gerenciadorgastospessoais/screens/components/card_conta.dart';
-import 'package:gerenciadorgastospessoais/screens/components/card_transacao.dart';
-import 'package:gerenciadorgastospessoais/screens/transacao/transacao_screen.dart';
-import 'package:gerenciadorgastospessoais/services/conta_service.dart';
-import 'package:gerenciadorgastospessoais/services/transacao_service.dart';
+import 'package:gerenciador_gastos_pessoais/models/conta.dart';
+import 'package:gerenciador_gastos_pessoais/models/transacao.dart';
+import 'package:gerenciador_gastos_pessoais/screens/components/card_conta.dart';
+import 'package:gerenciador_gastos_pessoais/screens/components/card_transacao.dart';
+import 'package:gerenciador_gastos_pessoais/screens/transacao/transacao_screen.dart';
+import 'package:gerenciador_gastos_pessoais/services/conta_service.dart';
+import 'package:gerenciador_gastos_pessoais/services/transacao_service.dart';
 
 class Body extends StatefulWidget {
-  final int? id;
+  final int id;
+
   Body({this.id});
 
   @override
@@ -18,10 +19,10 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   TransacaoService ts = TransacaoService();
   ContaService cs = ContaService();
-  Future<List>? _loadTransacoes;
-  Future<Conta>? _loadConta;
-  List<Transacao>? _transacoes;
-  Conta? _conta;
+  Future<List> _loadTransacoes;
+  Future<Conta> _loadConta;
+  List<Transacao> _transacoes;
+  Conta _conta;
 
   @override
   void initState() {
@@ -30,7 +31,6 @@ class _BodyState extends State<Body> {
     _loadConta = _getConta(widget.id);
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,7 +46,7 @@ class _BodyState extends State<Body> {
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   _conta = snapshot.data;
-                  return cardConta(context, _conta!);
+                  return cardConta(context, _conta);
                 } else {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -63,44 +63,45 @@ class _BodyState extends State<Body> {
             children: [
               Text(
                 "Todas as transações",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700,
                     color: Colors.black),
               ),
             ],
           ),
         ),
         FutureBuilder(
-            future: _loadTransacoes,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                _transacoes = snapshot.data;
-                return Expanded(
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: _transacoes!.length,
-                        padding: EdgeInsets.all(10),
-                        itemBuilder: (context, index) {
-                          return cardTransacao(
-                              context, index, _transacoes![index]);
-                        }));
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            })
+          future: _loadTransacoes,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              _transacoes = snapshot.data;
+              return Expanded(
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: _transacoes.length,
+                    padding: EdgeInsets.all(10),
+                    itemBuilder: (context, index) {
+                      return cardTransacao(context, index, _transacoes[index]);
+                    }
+                ),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        )
       ],
     );
   }
 
-  Future<Conta> _getConta(int? id) async {
-    return await cs.getConta(id!);
+  Future<List> _getTransacoes(int id) async {
+    return await ts.getTransacoesConta(id);
   }
 
-  Future<List> _getTransacoes(int? id) async {
-    return await ts.getTransacoesConta(id!);
+  Future<Conta> _getConta(int id) async {
+    return await cs.getConta(id);
   }
+
 }
